@@ -1,6 +1,7 @@
 # Atrium Campus Interview Project
 
 ## TODO
+- Tests
 - Pagination of returned loans
 
 ## Getting Started Locally
