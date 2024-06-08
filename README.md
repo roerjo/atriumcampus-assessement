@@ -10,8 +10,8 @@
 #### Create connection to local database
 1. Open your favorite database client that can connect to MySQL databases
 2. Create new connection using the following config:
-   - Host: `localhost`
-   - Port: `3333`
+   - Host: `mysql`
+   - Port: `3306`
    - Username: `root`
    - Password: `secret`
 3. Test the connection
