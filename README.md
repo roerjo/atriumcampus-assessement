@@ -1,5 +1,8 @@
 # Atrium Campus Interview Project
 
+## TODO
+- Pagination of returned loans
+
 ## Getting Started Locally
 ### Prerequisites
 - Docker
@@ -17,3 +20,9 @@
 3. Test the connection
 #### Verify the application can be reached from your browser
 Navigate to localhost:8888
+
+## CodeIgniter Features I Used
+- Migrations
+- Seeders
+- Fabricators
+- MVC

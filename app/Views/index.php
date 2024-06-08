@@ -12,6 +12,6 @@
     </style>
 </head>
 <body>
-    <div>Test</div>
+    <div><?= var_dump($loans) ?></div>
 </body>
 </html>
