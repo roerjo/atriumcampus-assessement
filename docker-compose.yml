@@ -11,11 +11,11 @@ services:
     ports:
       - 8888:80
     depends_on:
-      - db
+      - mysql
     links:
-      - db
+      - mysql
 
-  db:
+  mysql:
     container_name: atriumcampus-db
     image: mysql:5.7
     environment:
