@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+  web:
+    container_name: atriumcampus-web
+    build:
+      context: .
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8888:80
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    container_name: atriumcampus-db
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    restart: unless-stopped
+    volumes:
+      - atriumcampus_data:/usr/data
+    ports:
+      - 3333:3306
+volumes:
+  atriumcampus_data:
