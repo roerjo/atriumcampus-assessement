@@ -18,13 +18,7 @@ class LoanController extends BaseController
 
     public function store(): RedirectResponse
     {
-        $rules = [
-            'first_name' => 'string|max_length[191]',
-            'middle_initial' => 'required|string|max_length[191]',
-            'last_name' => 'required|string|max_length[191]',
-            'loan' => 'required|decimal',
-            'value' => 'required|decimal',
-        ];
+        $rules = $this->validationRules();
 
         $data = $this->request->getPost(array_keys($rules));
 
@@ -47,13 +41,7 @@ class LoanController extends BaseController
 
     public function update(int $id): RedirectResponse
     {
-        $rules = [
-            'first_name' => 'string|max_length[191]',
-            'middle_initial' => 'required|string|max_length[191]',
-            'last_name' => 'required|string|max_length[191]',
-            'loan' => 'required|decimal',
-            'value' => 'required|decimal',
-        ];
+        $rules = $this->validationRules();
 
         $data = $this->request->getPost(array_keys($rules));
 
@@ -79,5 +67,16 @@ class LoanController extends BaseController
         model(Loan::class)->delete($id);
 
         return redirect()->back();
+    }
+
+    private function validationRules(): array
+    {
+        return [
+            'first_name' => 'string|max_length[30]',
+            'middle_initial' => 'string|max_length[1]',
+            'last_name' => 'required|string|max_length[30]',
+            'loan' => 'required|decimal',
+            'value' => 'required|decimal',
+        ];
     }
 }

@@ -9,6 +9,9 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
+<div class="container">
+    <h1 style="text-align:center;">Atrium Campus Assessment</h1>
+    <p style="text-align:center;"><i>By Eric Johnson</i></p>
 
     <?php
         helper('form');
@@ -69,7 +72,7 @@
                 </td>
                 <td>
                     <input
-                        class="form-control value1"
+                        class="form-control loanInput"
                         type="text"
                         form="new-loan"
                         name="loan"
@@ -79,7 +82,7 @@
                 </td>
                 <td>
                     <input
-                        class="form-control value2"
+                        class="form-control valueInput"
                         type="text"
                         form="new-loan"
                         name="value"
@@ -128,7 +131,7 @@
                     </td>
                     <td>
                         <input
-                            class="form-control value1"
+                            class="form-control loanInput"
                             type="text"
                             form="form-<?= esc($loan['id']) ?>"
                             name="loan"
@@ -138,7 +141,7 @@
                     </td>
                     <td>
                         <input
-                            class="form-control value2"
+                            class="form-control valueInput"
                             type="text"
                             form="form-<?= esc($loan['id']) ?>"
                             name="value"
@@ -148,62 +151,75 @@
                     </td>
                     <td><span class="result"></span></td>
                     <td>
-                        <form id="form-<?= esc($loan['id']) ?>" method="POST" action="/<?= esc($loan['id']) ?>">
-                            <?= csrf_field() ?>
-                            <input type="hidden" name="_method" value="PUT">
+                        <div style="display:flex">
+                            <form
+                                id="form-<?= esc($loan['id']) ?>"
+                                method="POST"
+                                action="/<?= esc($loan['id']) ?>"
+                                style="margin-right:5px"
+                                >
+                                <?= csrf_field() ?>
+                                <!-- I want to use the PUT method here, but I came across some odd behavior in automated tests -->
 
-                            <button type="submit" class="btn btn-info">Update</button>
-                        </form>
-                        <form id="delete-loan" method="POST" action="/<?= esc($loan['id']) ?>">
-                            <?= csrf_field() ?>
-                            <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-info">Update</button>
+                            </form>
+                            <form
+                                id="delete-loan"
+                                method="POST"
+                                action="/<?= esc($loan['id']) ?>"
+                                >
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="_method" value="DELETE">
 
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach ?>
         </tbody>
-        </table>
+    </table>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script>
-        // Function to compute the result for a single row
-        function computeRowResult(row) {
-            const loanAmount = row.querySelector('.value1');
-            const valueAmount = row.querySelector('.value2');
-            const resultSpan = row.querySelector('.result');
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+    // Function to compute the result for a single row
+    function computeRowResult(row) {
+        const loanAmount = row.querySelector('.loanInput');
+        const valueAmount = row.querySelector('.valueInput');
+        const resultSpan = row.querySelector('.result');
 
-            if (!loanAmount || !valueAmount) {
-                if (! resultSpan) return;
-                resultSpan.textContent = 'N/A';
-                return;
-            }
-
-            const value1 = parseFloat(loanAmount.value);
-            const value2 = parseFloat(valueAmount.value);
-
-            const result = (value2 / value1) * 100;
-            resultSpan.textContent = isNaN(result) ? 'N/A' : result.toFixed(2) + '%';
+        if (!loanAmount || !valueAmount) {
+            if (! resultSpan) return;
+            resultSpan.textContent = 'N/A';
+            return;
         }
 
-        // Function to compute results for all rows in the table
-        function computeTableResults() {
-            const table = document.getElementById('loanTable');
-            const rows = table.querySelectorAll('tr');
-            // Start from index 1 to skip the header row
-            for (let i = 1; i < rows.length; i++) {
-                computeRowResult(rows[i]);
-            }
+        const valueForLoanAmount = parseFloat(loanAmount.value);
+        const valueForValueAmount = parseFloat(valueAmount.value);
+
+        const result = (valueForValueAmount / valueForLoanAmount) * 100;
+        resultSpan.textContent = isNaN(result) ? 'N/A' : result.toFixed(2) + '%';
+    }
+
+    // Function to compute results for all rows in the table
+    function computeTableResults() {
+        const table = document.getElementById('loanTable');
+        const rows = table.querySelectorAll('tr');
+        // Start from index 1 to skip the header row
+        for (let i = 1; i < rows.length; i++) {
+            computeRowResult(rows[i]);
         }
+    }
 
-        // Add event listeners to all input elements for live computation
-        document.querySelectorAll('.value1, .value2').forEach(input => {
-            input.addEventListener('input', computeTableResults);
-        });
+    // Add event listeners to all input elements for live computation
+    document.querySelectorAll('.loanInput, .valueInput').forEach(input => {
+        input.addEventListener('input', computeTableResults);
+    });
 
-        // Initial computation when the page loads
-        computeTableResults();
-    </script>
+    // Initial computation when the page loads
+    computeTableResults();
+</script>
+
 </body>
 </html>
