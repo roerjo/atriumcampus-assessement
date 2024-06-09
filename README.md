@@ -2,7 +2,10 @@
 
 ## TODO
 - Tests
+- Deletion confirmation modal
+- Improve the table, e.g. sorting
 - Pagination of returned loans
+- Better error handling
 
 ## Getting Started Locally
 ### Prerequisites
