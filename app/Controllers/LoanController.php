@@ -14,4 +14,25 @@ class LoanController extends BaseController
             'loans' => $loans,
         ]);
     }
+
+    public function store(): string
+    {
+        //
+
+        return $this->index();
+    }
+
+    public function update(int $id): string
+    {
+        //
+
+        return $this->index();
+    }
+
+    public function destroy(int $id): string
+    {
+        model(Loan::class)->delete($id);
+
+        return $this->index();
+    }
 }
