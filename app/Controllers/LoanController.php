@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Loan;
+use CodeIgniter\HTTP\RedirectResponse;
 
 class LoanController extends BaseController
 {
@@ -15,24 +16,36 @@ class LoanController extends BaseController
         ]);
     }
 
-    public function store(): string
+    public function store(): RedirectResponse
     {
-        //
+        model(Loan::class)->insert([
+            'first_name' => $this->request->getPost('first_name'),
+            'middle_initial' => $this->request->getPost('middle_initial'),
+            'last_name' => $this->request->getPost('last_name'),
+            'loan' => $this->request->getPost('loan'),
+            'value' => $this->request->getPost('value'),
+        ]);
 
-        return $this->index();
+        return redirect()->back();
     }
 
-    public function update(int $id): string
+    public function update(int $id): RedirectResponse
     {
-        //
+        model(Loan::class)->update($id, [
+            'first_name' => $this->request->getPost('first_name'),
+            'middle_initial' => $this->request->getPost('middle_initial'),
+            'last_name' => $this->request->getPost('last_name'),
+            'loan' => $this->request->getPost('loan'),
+            'value' => $this->request->getPost('value'),
+        ]);
 
-        return $this->index();
+        return redirect()->back();
     }
 
-    public function destroy(int $id): string
+    public function destroy(int $id): RedirectResponse
     {
         model(Loan::class)->delete($id);
 
-        return $this->index();
+        return redirect()->back();
     }
 }

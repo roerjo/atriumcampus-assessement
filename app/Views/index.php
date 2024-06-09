@@ -26,6 +26,64 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td>
+                    <input
+                        class="form-control"
+                        type="text"
+                        form="new-loan"
+                        name="first_name"
+                        placeholder="First name..."
+                        >
+                </td>
+                <td>
+                    <input
+                        class="form-control"
+                        type="text"
+                        form="new-loan"
+                        name="middle_initial"
+                        placeholder="Middle initial..."
+                        >
+                </td>
+                <td>
+                    <input
+                        class="form-control"
+                        type="text"
+                        form="new-loan"
+                        name="last_name"
+                        placeholder="Last name..."
+                        required
+                        >
+                </td>
+                <td>
+                    <input
+                        class="form-control"
+                        type="text"
+                        form="new-loan"
+                        name="loan"
+                        placeholder="Loan amount..."
+                        required
+                        >
+                </td>
+                <td>
+                    <input
+                        class="form-control"
+                        type="text"
+                        form="new-loan"
+                        name="value"
+                        placeholder="Value..."
+                        required
+                        >
+                </td>
+                <td>%</td>
+                <td>
+                    <form id="new-loan" method="POST" action="/">
+                        <?= csrf_field() ?>
+
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </td>
+            </tr>
             <?php foreach ($loans as $loan): ?>
                 <tr>
                     <td>
@@ -62,7 +120,7 @@
                             type="text"
                             form="form-<?= esc($loan['id']) ?>"
                             name="loan"
-                            value="<?= esc(number_format($loan['loan'], 2)) ?>"
+                            value="<?= esc($loan['loan']) ?>"
                             required
                             >
                     </td>
@@ -72,13 +130,13 @@
                             type="text"
                             form="form-<?= esc($loan['id']) ?>"
                             name="value"
-                            value="<?= esc(number_format($loan['value'], 2)) ?>"
+                            value="<?= esc($loan['value']) ?>"
                             required
                             >
                     </td>
                     <td>%</td>
                     <td>
-                        <form id="form-<?= esc($loan['id']) ?>" method="POST" action="/">
+                        <form id="form-<?= esc($loan['id']) ?>" method="POST" action="/<?= esc($loan['id']) ?>">
                             <?= csrf_field() ?>
                             <input type="hidden" name="_method" value="PUT">
 
