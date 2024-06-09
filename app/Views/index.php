@@ -198,7 +198,7 @@
         const valueForLoanAmount = parseFloat(loanAmount.value);
         const valueForValueAmount = parseFloat(valueAmount.value);
 
-        const result = (valueForValueAmount / valueForLoanAmount) * 100;
+        const result = (valueForLoanAmount / valueForValueAmount) * 100;
         resultSpan.textContent = isNaN(result) ? 'N/A' : result.toFixed(2) + '%';
     }
 
